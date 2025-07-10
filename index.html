@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planejador de Viagem - Genova 2025</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container">
+                <h1 class="app-title">🇮🇹 Minha Viagem para Genova</h1>
+                <p class="app-subtitle">Dezembro 2025 • Planejamento Completo</p>
+                <div class="trip-countdown">
+                    <span id="countdown-days">0</span> dias restantes
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button type="button" class="nav-tab active" data-section="dashboard" onclick="showSection('dashboard')">📊 Dashboard</button>
+                    <button type="button" class="nav-tab" data-section="voos" onclick="showSection('voos')">✈️ Voos</button>
+                    <button type="button" class="nav-tab" data-section="documentos" onclick="showSection('documentos')">📄 Documentos</button>
+                    <button type="button" class="nav-tab" data-section="orcamento" onclick="showSection('orcamento')">💰 Orçamento</button>
+                    <button type="button" class="nav-tab" data-section="roteiro" onclick="showSection('roteiro')">🗺️ Roteiro</button>
+                    <button type="button" class="nav-tab" data-section="checklist" onclick="showSection('checklist')">✅ Checklist</button>
+                    <button type="button" class="nav-tab" data-section="genova" onclick="showSection('genova')">🏛️ Genova</button>
+                    <button type="button" class="nav-tab" data-section="compartilhar" onclick="showSection('compartilhar')">🔗 Compartilhar</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="container">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section active">
+                    <div class="section-header">
+                        <h2>Dashboard - Visão Geral</h2>
+                        <p>Resumo completo do seu planejamento de viagem</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Orçamento Total</h3>
+                            <div class="stat-value" id="total-budget">R$ 0</div>
+                            <div class="stat-label">Planejado</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Checklist</h3>
+                            <div class="stat-value" id="checklist-progress">0%</div>
+                            <div class="stat-label">Completo</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Documentos</h3>
+                            <div class="stat-value" id="documents-status">0/6</div>
+                            <div class="stat-label">Prontos</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Roteiro</h3>
+                            <div class="stat-value" id="itinerary-count">0</div>
+                            <div class="stat-label">Atividades</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-cards">
+                        <div class="card">
+                            <h3>Próximas Tarefas</h3>
+                            <div id="next-tasks" class="task-list"></div>
+                        </div>
+                        <div class="card">
+                            <h3>Informações da Viagem</h3>
+                            <div class="trip-info">
+                                <div class="info-item">
+                                    <strong>Destino:</strong> Genova, Liguria, Itália
+                                </div>
+                                <div class="info-item">
+                                    <strong>Período:</strong> Dezembro 2025 (2-3 semanas)
+                                </div>
+                                <div class="info-item">
+                                    <strong>Clima esperado:</strong> 11°C máx / 5°C mín
+                                </div>
+                                <div class="info-item">
+                                    <strong>Moeda:</strong> Euro (EUR)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Other Sections remain unchanged -->
+                <!-- Voos Section -->
+                <section id="voos" class="section">
+                    <div class="section-header">
+                        <h2>Voos</h2>
+                        <p>Gerencie seus voos e informações de viagem</p>
+                        <button class="btn btn--primary" onclick="openModal('flight-modal')">Adicionar Voo</button>
+                    </div>
+                    <div id="flights-list" class="items-list">
+                        <!-- Flights will be rendered here dynamically -->
+                    </div>
+                </section>
+                
+                <section id="documentos" class="section">
+                    <div class="section-header">
+                        <h2>Documentos</h2>
+                        <p>Acompanhe o status dos seus documentos</p>
+                        <button class="btn btn--primary" onclick="openModal('document-modal')">Adicionar Documento</button>
+                    </div>
+                    <div id="documents-list" class="items-list">
+                        <!-- Documents will be rendered here dynamically -->
+                    </div>
+                </section>
+                
+                <section id="orcamento" class="section">
+                    <div class="section-header">
+                        <h2>Orçamento</h2>
+                        <p>Controle seus gastos e planejamento financeiro</p>
+                        <button class="btn btn--primary" onclick="openModal('budget-modal')">Adicionar Gasto</button>
+                    </div>
+                    <div id="budget-list" class="items-list">
+                        <!-- Budget items will be rendered here dynamically -->
+                    </div>
+                </section>
+                
+                <section id="roteiro" class="section">
+                    <div class="section-header">
+                        <h2>Roteiro</h2>
+                        <p>Planeje suas atividades e cronograma</p>
+                        <div class="section-actions">
+                            <button class="btn btn--primary" onclick="openModal('itinerary-modal')">Adicionar Atividade</button>
+                            <button class="btn btn--secondary" onclick="printItinerary()">Imprimir Roteiro</button>
+                        </div>
+                    </div>
+                    <div id="itinerary-list" class="items-list">
+                        <!-- Itinerary items will be rendered here dynamically -->
+                    </div>
+                </section>
+                
+                <section id="checklist" class="section">
+                    <div class="section-header">
+                        <h2>Checklist</h2>
+                        <p>Lista de tarefas e itens para não esquecer</p>
+                        <button class="btn btn--primary" onclick="openModal('checklist-modal')">Adicionar Item</button>
+                    </div>
+                    <div id="checklist-list" class="items-list">
+                        <!-- Checklist items will be rendered here dynamically -->
+                    </div>
+                </section>
+                
+                <section id="genova" class="section">
+                    <div class="section-header">
+                        <h2>Genova - Guia da Cidade</h2>
+                        <p>Informações úteis sobre seu destino</p>
+                    </div>
+                    <div class="city-guide">
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <h3>🏛️ Pontos Turísticos</h3>
+                                <ul>
+                                    <li>Centro Histórico de Genova (UNESCO)</li>
+                                    <li>Palazzi dei Rolli</li>
+                                    <li>Catedral de São Lourenço</li>
+                                    <li>Via del Campo</li>
+                                    <li>Aquário de Genova</li>
+                                    <li>Palazzo Rosso e Palazzo Bianco</li>
+                                </ul>
+                            </div>
+                            <div class="guide-card">
+                                <h3>🍝 Gastronomia</h3>
+                                <ul>
+                                    <li>Pesto Genovese (especialidade local)</li>
+                                    <li>Focaccia col formaggio</li>
+                                    <li>Farinata (torta de grão-de-bico)</li>
+                                    <li>Cima alla Genovese</li>
+                                    <li>Pandolce (doce tradicional)</li>
+                                </ul>
+                            </div>
+                            <div class="guide-card">
+                                <h3>🚇 Transporte</h3>
+                                <ul>
+                                    <li>Metro: 1 linha (Brin - Brignole)</li>
+                                    <li>Ônibus urbanos (AMT)</li>
+                                    <li>Funiculares históricos</li>
+                                    <li>Ferry para Cinque Terre</li>
+                                    <li>Aeroporto: Cristoforo Colombo</li>
+                                </ul>
+                            </div>
+                            <div class="guide-card">
+                                <h3>💡 Dicas Úteis</h3>
+                                <ul>
+                                    <li>Moeda: Euro (EUR)</li>
+                                    <li>Idioma: Italiano</li>
+                                    <li>Clima em dezembro: 5-11°C</li>
+                                    <li>Fuso horário: UTC+1</li>
+                                    <li>Emergência: 112</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="compartilhar" class="section">
+                    <div class="section-header">
+                        <h2>Compartilhar & Backup</h2>
+                        <p>Exporte, importe e compartilhe seu planejamento</p>
+                    </div>
+                    <div class="sharing-options">
+                        <div class="share-cards">
+                            <div class="share-card">
+                                <h3>💾 Backup de Dados</h3>
+                                <p>Salve todos os seus dados em um arquivo JSON</p>
+                                <button class="btn btn--primary" onclick="exportData()">Exportar Dados</button>
+                                <div class="import-section">
+                                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
+                                    <button class="btn btn--secondary" onclick="document.getElementById('import-file').click()">Importar Dados</button>
+                                </div>
+                            </div>
+                            <div class="share-card">
+                                <h3>🖨️ Impressão</h3>
+                                <p>Imprima seu roteiro completo</p>
+                                <button class="btn btn--secondary" onclick="printItinerary()">Imprimir Roteiro</button>
+                            </div>
+                            <div class="share-card">
+                                <h3>📱 PWA</h3>
+                                <p>Instale como aplicativo no seu dispositivo</p>
+                                <button class="btn btn--secondary" id="install-pwa" style="display: none;">Instalar App</button>
+                                <p><small>Disponível quando acessado via HTTPS</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals (copied exactly from first version without placeholders) -->
+    <!-- Flight Modal -->
+    <div id="flight-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Voo</h2>
+            <form id="flight-form">
+                <div class="form-group">
+                    <label class="form-label" for="flight-origin">Origem</label>
+                    <input type="text" id="flight-origin" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="flight-destination">Destino</label>
+                    <input type="text" id="flight-destination" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="flight-date">Data</label>
+                    <input type="date" id="flight-date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="flight-price">Preço</label>
+                    <input type="number" id="flight-price" class="form-control" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="flight-airline">Companhia</label>
+                    <input type="text" id="flight-airline" class="form-control">
+                </div>
+                <button type="submit" class="btn btn--primary">Salvar Voo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Budget Modal -->
+    <div id="budget-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Gasto</h2>
+            <form id="budget-form">
+                <div class="form-group">
+                    <label class="form-label" for="budget-category">Categoria</label>
+                    <input type="text" id="budget-category" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budget-amount">Valor (R$)</label>
+                    <input type="number" id="budget-amount" class="form-control" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="budget-description">Descrição</label>
+                    <input type="text" id="budget-description" class="form-control">
+                </div>
+                <button type="submit" class="btn btn--primary">Salvar Gasto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Itinerary Modal -->
+    <div id="itinerary-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Atividade</h2>
+            <form id="itinerary-form">
+                <div class="form-group">
+                    <label class="form-label" for="itinerary-date">Data</label>
+                    <input type="date" id="itinerary-date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="itinerary-activity">Atividade</label>
+                    <input type="text" id="itinerary-activity" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="itinerary-location">Local</label>
+                    <input type="text" id="itinerary-location" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="itinerary-time">Horário</label>
+                    <input type="time" id="itinerary-time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="itinerary-notes">Notas</label>
+                    <textarea id="itinerary-notes" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn--primary">Salvar Atividade</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checklist Modal -->
+    <div id="checklist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Item</h2>
+            <form id="checklist-form">
+                <div class="form-group">
+                    <label class="form-label" for="checklist-item">Item</label>
+                    <input type="text" id="checklist-item" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="checklist-category">Categoria</label>
+                    <select id="checklist-category" class="form-control">
+                        <option value="documentos">Documentos</option>
+                        <option value="voo">Voo</option>
+                        <option value="hospedagem">Hospedagem</option>
+                        <option value="bagagem">Bagagem</option>
+                        <option value="eletronicos">Eletrônicos</option>
+                        <option value="preparacao">Preparação</option>
+                        <option value="comunicacao">Comunicação</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn--primary">Salvar Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div id="document-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Documento</h2>
+            <form id="document-form">
+                <div class="form-group">
+                    <label class="form-label" for="document-type">Tipo de Documento</label>
+                    <select id="document-type" class="form-control" required>
+                        <option value="">Selecione...</option>
+                        <option value="Passaporte">Passaporte</option>
+                        <option value="Visa">Visa</option>
+                        <option value="Seguro Viagem">Seguro Viagem</option>
+                        <option value="Carteira de Vacinação">Carteira de Vacinação</option>
+                        <option value="Reserva Hotel">Reserva Hotel</option>
+                        <option value="Voucher">Voucher</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="document-status">Status</label>
+                    <select id="document-status" class="form-control" required>
+                        <option value="pendente">Pendente</option>
+                        <option value="em_andamento">Em Andamento</option>
+                        <option value="concluido">Concluído</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="document-notes">Observações</label>
+                    <textarea id="document-notes" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn--primary">Salvar Documento</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
